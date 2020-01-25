@@ -1,0 +1,14 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ex03a.vert</file>
+    <file>ex03b.vert</file>
+    <file>ex03a.frag</file>
+    <file>ex03b.frag</file>
+    <file>ex03c.frag</file>
+    <file>ex03d.frag</file>
+    <file>ex03e.frag</file>
+    <file>suzanne.obj</file>
+    <file>suzanne.mtl</file>
+    <file>pi.png</file>
+</qresource>
+</RCC>

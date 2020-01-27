@@ -1,0 +1,50 @@
+HW01:  RGB to NDC Shader (It says RGB to NDC where I need to turn it in but the lecture video and slides say to do NDC to RGB)
+Kathy Grimes
+CSCI 5239
+Based off of CSCI 5239 EX01
+
+HW Requirements:
+    Create a program that displays a scene in 3D that can be viewed from any direction under user control.
+    
+    The color of every vertex in every object should be set using a shader such that the coordinates of 
+    the vertex in Normalized Device Coordinates (-1 to +1 in x,y,z) determines the color of the vertex 
+    using a linear mapping in RGB space.
+    
+    Your program must work in both orthogonal and perspective, so NDC space starts as 4D homogeneous 
+    coordinates and w will not be 1.
+    
+    This is a trivial shader, and the vertex and fragment shader should each be only one or two lines.  
+    So make an effort of making this as elegant as you can.  Consider this Shader Golf.
+    
+    From Lecture Video:
+        Needs to nicely resize
+        Variety of Objects
+        Implement the Vertex and Fragment shader (options to add only Vertex and only Fragment))
+        Get normalized device coordinate (+/-1) to RGB(0/1)
+            Supposed to be able to do this in just one line (if you cheat a bit) - make it as simple as possible
+        gl_Position has the normalized device coordinates I will need to map color 
+            (so if I just want two of the four then reference gl_Position.xy)
+
+What I did:
+    Adding new qt gui options for x/y/z coordinates
+    Added modifications to hw01.vert/frag.  
+        Basically hw01.vert is a basic .vert shader while the ndc to rgb occurs in .frag
+    Added modifications to hw01opengl.cpp/h hw01viewer.cpp for sliders/uniform shader variable
+
+Run:
+    unzip
+    qmake
+    make
+    ./hw01
+
+How long I spent:
+    If I do not include windows environment setup which I did not get working yet and ended up 
+    updating my linux VM environment to work with qt, then approximately 11 hours.  I think I have spent
+    way over 20 hours trying to get the windows environment working but I haven't even gotten to the qt
+    portion -- since you recommended mingw, I downloaded eclipse after I installed mingw but for some reason
+    I cannot get the toolchain to be recognized when I use build.  I'm not used to writing/running code in 
+    a Windows environment so I am mostly using recommendations from the Internet for software/problems I 
+    run into.  I have done many recommendations including reinstalling the various software and adding the mingw
+    to the paths in both the windows environment and eclipse settings but still am having problems with the simple 
+    hello world program building (says nothing to build)
+

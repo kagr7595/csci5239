@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>hw02a.vert</file>
+    <file>hw02b.vert</file>
+    <file>hw02a.frag</file>
+    <file>hw02b.frag</file>
+    <file>suzanne.obj</file>
+    <file>suzanne.mtl</file>
+    <file>pi.png</file>
+</qresource>
+</RCC>

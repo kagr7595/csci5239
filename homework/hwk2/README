@@ -1,0 +1,46 @@
+HW02:  Procedural Textures
+Kathy Grimes
+CSCI 5239
+Based off of CSCI 5239 EX03
+
+HW Requirements:
+    The objects in the scene should be colored using a procedural texture shader.
+    You may not use the wave, brick or mandlebrot shaders shown in class.  If you use a
+    shader from the text or the web, you should improve it.
+
+    This is your first real shader and is an opportunity to explore a few of the
+    features of GLSL.  Appendix C in the text describes the builtin functions which
+    provides useful manipulations.
+
+    Your scene should be lit.  You may reuse the phong() function from the example 2
+    vertex shader but improvements are always encouraged.
+
+    The resulting shader may be only a few lines long, so make sure you can justify
+    and explain every line.
+
+What I did:
+    For Switch, Offset & Stripes - does not vary with time or position 
+    - The vert file switches the x and y coordinates and then offsets the position
+    - The frag file uses sin function to makes stripes
+    For Light up strobe XY (reminds me of the light up bouncy balls)
+    - The vert file takes in the location of xy (shown in gui) and uses to make the 
+      lighting brighter/dimmer(farther apart x and y the brighter the colors) and changes with time
+    
+
+Run:
+    unzip
+    qmake
+    make
+    ./hw02
+
+    Use available dropdown menus to go in-between no shader and shaders for the objects 
+    that were supplied in ex03.
+    Use X and Y positions during the Light up strobe XY shader
+    Use mouse to move object around (angle)
+    Use scroll to zoom in/out on object
+    
+
+How long I spent:
+    About 6 hours - I played around with some of the functions as I thought it was fun. I really like the
+    position offset in the first as it makes the objects for cube and icosohedron look cool!
+

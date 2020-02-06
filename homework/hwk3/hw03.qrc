@@ -1,0 +1,19 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>hw03a.vert</file>
+    <file>hw03b.vert</file>
+    <file>hw03a.frag</file>
+    <file>hw03b.frag</file>
+    <file>hw03a_1.vert</file>
+    <file>hw03b_1.vert</file>
+    <file>hw03a_1.frag</file>
+    <file>hw03b_1.frag</file>
+    <file>hw03a_2.vert</file>
+    <file>hw03b_2.vert</file>
+    <file>hw03a_2.frag</file>
+    <file>hw03b_2.frag</file>
+    <file>suzanne.obj</file>
+    <file>suzanne.mtl</file>
+    <file>pi.png</file>
+</qresource>
+</RCC>

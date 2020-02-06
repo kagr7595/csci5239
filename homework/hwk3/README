@@ -1,0 +1,80 @@
+HW03:  Procedural Textures
+Kathy Grimes
+CSCI 5239
+Based off of CSCI 5239 EX03 with the addition of fps from EX04
+
+HW Requirements:
+    Investigate the performance of different elements of GLSL.  
+    Examples of things you may investigate is float vs. int, 
+    performance of constructs like if, select, builtin functions 
+    vs. explicit calculation, the cost of transcendental functions,
+     inline code vs. function calls, performance differences between
+    different video cards or operating systems, etc.
+
+    What the program should do is left to your imagination.  The 
+    scene could involve lighting, textures, and similar features, 
+    but the assignment is to investigate performance of different 
+    ways of doing things.
+
+    Example 4 contains code to calculate frames per second, which 
+    measures the overall performance.  Make sure you disable VSYNC 
+    so that this measures to true frame rate.
+
+Results:  
+                CUBE        ICOS        TEAP
+    - NONE:     2200-2600   2472-3061   160-485
+    For Switch, Offset & Stripes
+                CUBE        ICOS        TEAP
+    - BASE:     2256-2792   2194-2909   164-474
+    - FRAG
+        - IF:   1926-2909   2204-2903   146-472
+        - FUNC: 1846-2912   1949-3135   118-467
+    - VERT
+        - IF:   1147-2918   1815-3092   122-477
+        - FUNC: 1253-2992   1650-3020    90-497
+    For Light up strobe XY 
+                CUBE        ICOS        TEAP      SUZA
+    - BASE:     1795-2895   1782-2901   177-496   19-36
+    - FRAG
+        - IF:   1870-2953   1887-2881   104-501   17-36
+        - FUNC: 1710-2962   1826-3005   109-503   15-36
+    - VERT
+        - IF:   2087-2807   1407-2997   109-492   15-33
+        - FUNC: 1582-2834   1329-2947   124-457   14-33
+
+    For this homework I wanted to see fps based on if the modification 
+    (if/function) was in the frag or the vert as well as if there was a trend
+    when adding the if and function.  I started with a base shader
+    then added a modification that was either put into the vert or the frag.
+
+
+    What I see from my results is that most of the results were pretty steady
+    and that there was possibly a slight decrease in the fps.  I was expecting
+    larger changes in fps when adding if/functions.  Now some reasons for this is: 
+        -that I may not have enough going on in my scene
+        -I could be simplifying my if statements and functions so much that 
+        the compiler is not branching these modifications, but instead substiuting 
+        a simiplified assignment.
+        -I am not seeing enough values for fps - perhaps adding a running fps that starts
+        once it is passed the initial state change and for at least a minute after
+    I do see some differences between frag and vert changes, with the lower fps with 
+    the vert changes.  This could mean that my hardware is more vert challenged and that
+    I should do more modifications in the frag.  I was not able to try this on another
+    machine as of yet, but this would be interesting to test.
+    
+
+Run:
+    unzip
+    qmake
+    make
+    ./hw03
+
+    Use available dropdown menus to go in-between no shader and shaders for the objects 
+    that were supplied in ex03.
+    Use X and Y positions during the Light up strobe XY shader
+    Use mouse to move object around (angle)
+    Use scroll to zoom in/out on object
+    
+
+How long I spent:
+    About 8 hours 

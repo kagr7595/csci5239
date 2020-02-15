@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Example 10:  OpenGL Android
+-->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.ex10">
+    <application
+            android:label="@string/ex10_activity">
+        <activity android:name="EX10Activity"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            	android:launchMode="singleTask"
+                android:screenOrientation="unspecified"  
+            	android:configChanges="keyboard|keyboardHidden|orientation|screenLayout">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+    <uses-feature android:glEsVersion="0x00020000"/>
+    <uses-sdk android:minSdkVersion="10"/>
+</manifest>

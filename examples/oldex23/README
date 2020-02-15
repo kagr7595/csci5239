@@ -1,0 +1,11 @@
+ex23: CUDA square matrix multiplier
+
+Willem A. (Vlakkies) Schreuder
+CSCI4229/5229 Fall 2017
+
+The size of the matrix is width*blocks
+
+Command line parameters
+  -v      Verbose - show hardware detila
+  width   Block width (width squared <= max threads/block)
+  blocks  Number of blocks

@@ -1,0 +1,32 @@
+HW04:  OpenGL 3&4
+Kathy Grimes
+CSCI 5239
+Based off of CSCI 5239 EX06 with the addition of phong()(modified for OpenGL 4) from EX04
+
+HW Requirements:
+   Create a program that uses shaders in the OpenGL 3 or 4 style, that is using
+the in and out qualifiers to pass variables into or between shaders and pass
+variables such as the transformation matrices and light properties into the
+shader as uniforms.
+
+   The program must implement lighting and textures, and define the scene using
+vertex buffer objects.
+
+   I recommend you start with Example 6 and add lighting and textures to my
+shaders.
+
+Run:
+    unzip
+    qmake
+    make
+    ./hw04
+
+This is the first time I ran on Windows as I could not get OpenGL 4 to run on my linux machine.  I don't think anything would be missing for linux, however let me know if you have issues.
+
+    Use available dropdown menus to go in-between Fixed Pipeline and Programmable Pipeline 
+    Use mouse to move object around (angle)
+    Use scroll to zoom in/out on object
+    
+
+How long I spent:
+    About 10 hours (+ 20ish hours trying to get my machines to work with OpenGL 4).  I got stuck for a couple of hours debugging an issue where I could see something was wrong with a normal or view.  I found out I was multipling the matrices in the wrong order.

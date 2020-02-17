@@ -97,8 +97,8 @@ void Hw04opengl::paintGL()
    doModelViewProjection();
 
    //  Set light
-   QVector3D lpos = doLight();
-   Q_UNUSED(lpos);  // Suppress warning since lpos is not used yet
+   QVector3D lpos = doLight(); //KG set uniform value LPosition as input to vert shader
+   //Q_UNUSED(lpos);  // Suppress warning since lpos is not used yet
 
    //  Fixed pipeline
    if (mode==0)
@@ -159,8 +159,18 @@ void Hw04opengl::paintGL()
       // Enable shader
       shader[mode]->bind();
       //  Set Modelview and Projection Matrix
-      shader[mode]->setUniformValue("ProjectionMatrix",proj);
-      shader[mode]->setUniformValue("ModelViewMatrix",mv);
+      shader[mode]->setUniformValue("ProjectionMatrix",proj); //QMatrix 4x4
+      shader[mode]->setUniformValue("ModelViewMatrix",mv);  //QMatrix 4x4
+      //KG Set View and Normal
+      shader[mode]->setUniformValue("ViewMatrix",view); //QMatrix 4x4
+      shader[mode]->setUniformValue("NormalMatrix",mv.normalMatrix()); //QMatrix  3x3
+      //KG Set Light Position
+      shader[mode]->setUniformValue("light.ambient",QVector3D(0.3,0.3,0.3)); //Associate with light.ambient in vert (based on CUgl settings)
+      shader[mode]->setUniformValue("light.diffuse",QVector3D(1.0,1.0,1.0)); //Associate with light.diffuse in vert (based on CUgl settings)
+      shader[mode]->setUniformValue("light.emission",QVector3D(0.1,0.1,0.1)); //Associate with light.emission in vert
+      shader[mode]->setUniformValue("light.position",QVector3D(lpos.x(),lpos.y(),lpos.z())); //Associate with light.position in vert
+      shader[mode]->setUniformValue("light.shininess",16.0f); //Associate with light.shininess in vert
+      shader[mode]->setUniformValue("light.specular",QVector3D(1.0,1.0,1.0)); //Associate with light.specular in vert (based on CUgl settings)
 
       //  Select cube buffer
       cube_buffer.bind();
@@ -170,6 +180,12 @@ void Hw04opengl::paintGL()
       //   Attribute 1:  vertex color (vec3) offset 7 floats
       shader[mode]->enableAttributeArray(1);
       shader[mode]->setAttributeBuffer(1,GL_FLOAT,7*sizeof(float),3,12*sizeof(float));
+      //   Attribute 2:  vertex normal (vec3) offset 4 floats
+      shader[mode]->enableAttributeArray(2);
+      shader[mode]->setAttributeBuffer(2,GL_FLOAT,4*sizeof(float),3,12*sizeof(float));
+      //   Attribute 3:  texture coor 2d (vec2) offset 10 floats
+      shader[mode]->enableAttributeArray(3);
+      shader[mode]->setAttributeBuffer(3,GL_FLOAT,10*sizeof(float),2,12*sizeof(float));
 
       // Draw the cube
       glDrawArrays(GL_TRIANGLES,0,cube_size);
@@ -177,6 +193,8 @@ void Hw04opengl::paintGL()
       //  Disable vertex arrays
       shader[mode]->disableAttributeArray(0);
       shader[mode]->disableAttributeArray(1);
+      shader[mode]->disableAttributeArray(2);
+      shader[mode]->disableAttributeArray(3);
 
       //  Unbind this buffer
       cube_buffer.release();

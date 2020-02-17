@@ -13,7 +13,7 @@
 Hw04viewer::Hw04viewer()
 {
    //  Set window title
-   setWindowTitle(tr("Hw04:  OpenGL 4"));
+   setWindowTitle(tr("Hw04:  OpenGL 3&4 - Kathy Grimes"));
 
    //  Create new OpenGL widget
    ogl = new Hw04opengl;

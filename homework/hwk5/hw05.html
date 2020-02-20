@@ -31,8 +31,10 @@
    attribute vec3 XYZ;
    attribute vec3 RGB;
    attribute vec3 Normal;
+   attribute vec2 Texture2d;
    
    varying vec3 col;
+   varying vec2 TextureCoord2d;
    
    vec3 phong()
    {
@@ -72,6 +74,8 @@
    {
       col = RGB*phong();
       gl_Position = ProjectionMatrix * ModelViewMatrix * vec4(XYZ,1);
+      // Pass Texture2d
+      TextureCoord2d = Texture2d;
    }
 </script> 
  
@@ -80,10 +84,14 @@
   -->
 <script id="shader-fs" type="x-shader/x-fragment"> 
 precision highp float;
+
+uniform sampler2D tex;
+
 varying vec3 col;
+varying vec2 TextureCoord2d;
 void main(void)
 {
-   gl_FragColor = vec4(col,1);
+   gl_FragColor = vec4(col,1)*texture2D(tex,TextureCoord2d);
    
 }
 </script> 
@@ -236,9 +244,9 @@ function webGLStart()
          
          
          /*Back side */
-         -1.0,  +1,-1,   -1,  -1,-1, -.43,  -1,-1,      -.43,  -1,-1, -.43,  +1,-1,   -1,  +1,-1,
-         -.43,+.25,-1, -.43,-.25,-1, +.43,  +1,-1,      +.43,  +1,-1, -.43,-.25,-1,   +1,  +1,-1,
-         -.14,   0,-1, +.43,  -1,-1, +.14,+.25,-1,      +.14,+.25,-1, +.43,  -1,-1,   +1,  -1,-1,
+         -1.0,  +1,-1, -.43,  -1,-1,   -1,  -1,-1,      -.43,  -1,-1,   -1,  +1,-1, -.43,  +1,-1,
+         -.43,+.25,-1, +.43,  +1,-1, -.43,-.25,-1,      +.43,  +1,-1,   +1,  +1,-1, -.43,-.25,-1,
+         -.14,   0,-1, +.14,+.25,-1, +.43,  -1,-1,      +.14,+.25,-1,   +1,  -1,-1, +.43,  -1,-1,
       ];
 
       //  "K" colors
@@ -265,6 +273,31 @@ function webGLStart()
          0,1,1, 0,1,1, 0,1,1,    0,1,1, 0,1,1, 0,1,1,
          1,0,1, 1,0,1, 1,0,1,    1,0,1, 1,0,1, 1,0,1,
       ];
+      //  "K" texture coordinates
+      var texturecoords = 
+      [
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         
+         0,0,   0,1,   1,1,      1,1,   1,0,   0,0, //only want one side with the texture
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         0,0,   0,0,   0,0,      0,0,   0,0,   0,0,
+         
+      ];
    }
    var verts = gl.createBuffer();
    gl.bindBuffer(gl.ARRAY_BUFFER,verts);
@@ -275,7 +308,7 @@ function webGLStart()
    
    //Calculate normals
    var normals = [];
-   for(let i = 0; i < n/9; i++) {
+   for(let i = 0; i < n/3; i++) {
       set_normal(xyz[9*i+0],xyz[9*i+1],xyz[9*i+2],
                  xyz[9*i+3],xyz[9*i+4],xyz[9*i+5],
                  xyz[9*i+6],xyz[9*i+7],xyz[9*i+8],
@@ -309,7 +342,31 @@ function webGLStart()
    var normalb = gl.createBuffer();
    gl.bindBuffer(gl.ARRAY_BUFFER,normalb);
    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(normals), gl.STATIC_DRAW); 
-   //normalb.numitems = n/3;
+   
+   
+   var textureb = gl.createBuffer();
+   gl.bindBuffer(gl.ARRAY_BUFFER,textureb);
+   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(texturecoords), gl.STATIC_DRAW); 
+
+   //Taken directly from https://webglfundamentals.org/webgl/lessons/webgl-3d-textures.html
+   // Create a texture.
+   var texture = gl.createTexture();
+   gl.bindTexture(gl.TEXTURE_2D, texture);
+    
+   // Fill the texture with a 1x1 blue pixel.
+   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+                 new Uint8Array([0, 0, 255, 255]));
+    
+   // Asynchronously load an image
+   var image = new Image();
+   image.src = "./smiley-face-icon-png-original.png";
+   image.addEventListener('load', function() {
+      // Now that the image has loaded make copy it to the texture.
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
+      gl.generateMipmap(gl.TEXTURE_2D);
+   });
+
 
    //  Set state to draw scene
    gl.enable(gl.DEPTH_TEST);
@@ -321,9 +378,9 @@ function webGLStart()
    var ph = 165;
    //  Light Position
    var zh = 0;
-   var lrad = 1.5;
+   var lrad = 3;
    var lpos_x = lrad*Math.cos(zh*3.14/180);
-   var lpos_y = 1.5;
+   var lpos_y = 2;
    var lpos_z = lrad*Math.sin(zh*3.14/180);
    //  Draw scene the first time
    runDisplay();
@@ -397,6 +454,12 @@ function webGLStart()
       var Normal = gl.getAttribLocation(prog,"Normal");
       gl.enableVertexAttribArray(Normal);
       gl.vertexAttribPointer(Normal,3,gl.FLOAT,false,0,0);
+      
+      //  Set up texture
+      gl.bindBuffer(gl.ARRAY_BUFFER,textureb);
+      var Texture2d = gl.getAttribLocation(prog,"Texture2d");
+      gl.enableVertexAttribArray(Texture2d);
+      gl.vertexAttribPointer(Texture2d,2,gl.FLOAT,false,0,0);
       
 
       //  Draw all vertexes

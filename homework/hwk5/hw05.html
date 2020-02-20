@@ -13,15 +13,65 @@
   -->
 <script id="shader-vs" type="x-shader/x-vertex"> 
    precision highp float;
+   struct LightS {
+       vec3 ambient;
+       vec3 diffuse;
+       vec3 emission;
+       vec3 position;
+       vec3 specular;
+       float shininess;
+   };
+   uniform LightS light;   
+   
+   uniform mat4 ProjectionMatrix;
+   uniform mat4 ModelViewMatrix;
+   uniform mat4 ViewMatrix;
+   uniform mat4 NormalMatrix;
+   
    attribute vec3 XYZ;
    attribute vec3 RGB;
-   uniform mat4 ProjectionMatrix;
-   uniform mat4 ModelviewMatrix;
+   attribute vec3 Normal;
+   
    varying vec3 col;
+   
+   vec3 phong()
+   {
+      //  P is the vertex coordinate on body
+      vec3 P = vec3(ModelViewMatrix * vec4(XYZ,1));
+      //  N is the object normal at P
+      vec3 N = normalize(mat3(NormalMatrix) * Normal);
+      //  Light Position for light 0
+      vec3 LightPos = vec3(ViewMatrix*vec4(light.position,1.0));
+      //  L is the light vector
+      vec3 L = normalize(LightPos - P);
+
+      //  Emission and ambient color
+      vec3 color = light.emission + light.ambient;
+
+      //  Diffuse light intensity is cosine of light and normal vectors
+      float Id = dot(L,N);
+      if (Id>0.0)
+      {
+         //  Add diffuse
+         color += Id*light.diffuse;
+         //  R is the reflected light vector R = 2(L.N)N - L
+         vec3 R = reflect(-L, N);
+         //  V is the view vector (eye at the origin)
+         vec3 V = normalize(-P);
+         //  Specular is cosine of reflected and view vectors
+         float Is = dot(R,V);
+         if (Is>0.0) color += pow(Is,light.shininess)*light.specular;
+      }
+
+      //  Return sum of color components
+      return color;
+   }
+   
+   
    void main(void)
    {
-      col = RGB;
-      gl_Position = ProjectionMatrix * ModelviewMatrix * vec4(XYZ,1);
+      col = RGB*phong();
+      gl_Position = ProjectionMatrix * ModelViewMatrix * vec4(XYZ,1);
    }
 </script> 
  
@@ -34,6 +84,7 @@ varying vec3 col;
 void main(void)
 {
    gl_FragColor = vec4(col,1);
+   
 }
 </script> 
 
@@ -131,7 +182,7 @@ function webGLStart()
    //  Set projection
    var ProjectionMatrix = new CanvasMatrix4();
    ProjectionMatrix.ortho(-2.5,+2.5,-2.5,+2.5,-2.5,+2.5);
-
+   
    if(0) 
    {
       //  Vertex array count
@@ -221,6 +272,44 @@ function webGLStart()
    var color = gl.createBuffer();
    gl.bindBuffer(gl.ARRAY_BUFFER,color);
    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(rgb),gl.STATIC_DRAW);
+   
+   //Calculate normals
+   var normals = [];
+   for(let i = 0; i < n/9; i++) {
+      set_normal(xyz[9*i+0],xyz[9*i+1],xyz[9*i+2],
+                 xyz[9*i+3],xyz[9*i+4],xyz[9*i+5],
+                 xyz[9*i+6],xyz[9*i+7],xyz[9*i+8],
+                 i);
+   }
+   
+   function set_normal(x0,y0,z0,x1,y1,z1,x2,y2,z2,entry)
+   {
+   
+      var vx0 = x1-x0;
+      var vy0 = y1-y0;
+      var vz0 = z1-z0;
+      var vx1 = x2-x0;
+      var vy1 = y2-y0;
+      var vz1 = z2-z0;
+      var Nx = (vy0*vz1)-(vz0*vy1);
+      var Ny = (vz0*vx1)-(vx0*vz1);
+      var Nz = (vx0*vy1)-(vy0*vx1);
+      normals.push(Nx);
+      normals.push(Ny);
+      normals.push(Nz);
+      normals.push(Nx);
+      normals.push(Ny);
+      normals.push(Nz);
+      normals.push(Nx);
+      normals.push(Ny);
+      normals.push(Nz);
+      
+   }
+   
+   var normalb = gl.createBuffer();
+   gl.bindBuffer(gl.ARRAY_BUFFER,normalb);
+   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(normals), gl.STATIC_DRAW); 
+   //normalb.numitems = n/3;
 
    //  Set state to draw scene
    gl.enable(gl.DEPTH_TEST);
@@ -228,9 +317,24 @@ function webGLStart()
    //  Mouse control variables
    var x0 = y0 = move  = 0;
    //  Rotation angles
-   var th = ph = 15;
+   var th = 5;
+   var ph = 165;
+   //  Light Position
+   var zh = 0;
+   var lrad = 1.5;
+   var lpos_x = lrad*Math.cos(zh*3.14/180);
+   var lpos_y = 1.5;
+   var lpos_z = lrad*Math.sin(zh*3.14/180);
    //  Draw scene the first time
-   Display();
+   runDisplay();
+
+
+   function runDisplay() 
+   {
+      requestAnimationFrame(runDisplay);
+      Display();
+      update();
+   }
 
    //
    //  Display the scene
@@ -241,18 +345,41 @@ function webGLStart()
       gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
 
       // Compute modelview matrix
-      var ModelviewMatrix = new CanvasMatrix4();
-      ModelviewMatrix.makeIdentity();
-      ModelviewMatrix.rotate(ph,0,1,0);
-      ModelviewMatrix.rotate(th,1,0,0);
+      var ViewMatrix = new CanvasMatrix4();
+      ViewMatrix.makeIdentity();
+      ViewMatrix.rotate(ph,0,1,0);
+      ViewMatrix.rotate(th,1,0,0);
+      
+      var ModelViewMatrix = ViewMatrix;
 
+      var NormalMatrix = new CanvasMatrix4(ModelViewMatrix);
+      NormalMatrix.invert();
+      NormalMatrix.transpose();
+      
       // Set shader
       gl.useProgram(prog);
 
       //  Set projection and modelview matrixes
       gl.uniformMatrix4fv(gl.getUniformLocation(prog,"ProjectionMatrix") , false , new Float32Array(ProjectionMatrix.getAsArray()));
-      gl.uniformMatrix4fv(gl.getUniformLocation(prog,"ModelviewMatrix")  , false , new Float32Array(ModelviewMatrix.getAsArray()));
+      gl.uniformMatrix4fv(gl.getUniformLocation(prog,"ModelViewMatrix")  , false , new Float32Array(ModelViewMatrix.getAsArray()));
+      // Set ViewMatrix and NormalMatrix
+      gl.uniformMatrix4fv(gl.getUniformLocation(prog,"ViewMatrix") , false , new Float32Array(ViewMatrix.getAsArray()));
+      gl.uniformMatrix4fv(gl.getUniformLocation(prog,"NormalMatrix")  , false , new Float32Array(NormalMatrix.getAsArray()));
 
+      // set the light information
+      var lightposition = gl.getUniformLocation(prog, "light.position");
+      gl.uniform3fv(lightposition, [lpos_x, lpos_y, lpos_z]);
+      var lightambient = gl.getUniformLocation(prog, "light.ambient");
+      gl.uniform3fv(lightambient, [0.3, 0.3, 0.3]);
+      var lightdiffuse = gl.getUniformLocation(prog, "light.diffuse");
+      gl.uniform3fv(lightdiffuse, [1, 1, 1]);
+      var lightemission = gl.getUniformLocation(prog, "light.emission");
+      gl.uniform3fv(lightemission, [0.1, 0.1, 0.1]);
+      var lightshininess = gl.getUniformLocation(prog, "light.shininess");
+      gl.uniform1f(lightshininess, 16.0);
+      var lightspecular = gl.getUniformLocation(prog, "light.specular");
+      gl.uniform3fv(lightspecular, [1, 1, 1]);
+      
       //  Set up 3D vertex array
       gl.bindBuffer(gl.ARRAY_BUFFER,verts);
       var XYZ = gl.getAttribLocation(prog,"XYZ");
@@ -263,7 +390,14 @@ function webGLStart()
       gl.bindBuffer(gl.ARRAY_BUFFER,color);
       var RGB = gl.getAttribLocation(prog,"RGB");
       gl.enableVertexAttribArray(RGB);
-      gl.vertexAttribPointer(RGB,3,gl.FLOAT,false,0,0);
+      gl.vertexAttribPointer(RGB,3,gl.FLOAT,false,0,0);      
+      
+      //  Set up 3D normals
+      gl.bindBuffer(gl.ARRAY_BUFFER,normalb);
+      var Normal = gl.getAttribLocation(prog,"Normal");
+      gl.enableVertexAttribArray(Normal);
+      gl.vertexAttribPointer(Normal,3,gl.FLOAT,false,0,0);
+      
 
       //  Draw all vertexes
       gl.drawArrays(gl.TRIANGLES,0,n);
@@ -271,10 +405,26 @@ function webGLStart()
       //  Disable vertex arrays
       gl.disableVertexAttribArray(XYZ);
       gl.disableVertexAttribArray(RGB);
+      gl.disableVertexAttribArray(Normal);
 
       //  Flush
       gl.flush ();
    }
+   
+   
+   var last = 0;
+   function update() 
+   {
+      var current = new Date().getTime();
+      if (current - last != 0) {
+         zh = zh + 1;
+         if (zh>360) zh -= 360;
+         lpos_x = lrad*Math.cos(zh*3.14/180);
+         lpos_z = lrad*Math.sin(zh*3.14/180);
+      }                
+      last = current;      
+   }
+   
 
    //
    //  Resize canvas

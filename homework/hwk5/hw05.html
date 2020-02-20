@@ -91,7 +91,7 @@ varying vec3 col;
 varying vec2 TextureCoord2d;
 void main(void)
 {
-   gl_FragColor = vec4(col,1)*texture2D(tex,TextureCoord2d);
+   gl_FragColor = vec4(col,1) + texture2D(tex,TextureCoord2d);
    
 }
 </script> 

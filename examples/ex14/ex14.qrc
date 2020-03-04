@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ex14a.frag</file>
+    <file>ex14b.frag</file>
+    <file>ex14c.frag</file>
+</qresource>
+</RCC>

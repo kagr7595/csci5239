@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ex17.vert</file>
+    <file>ex17.frag</file>
+    <file>bunny.obj</file>
+</qresource>
+</RCC>

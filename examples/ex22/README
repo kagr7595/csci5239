@@ -1,0 +1,15 @@
+ex22: Compute Shaders
+
+Willem A. (Vlakkies) Schreuder
+CSCI4229/5229 Fall 2017
+
+Demonstrate a compute shader with particle
+Derived from Mike Bailey's compute shader example
+
+Key bindings
+  r          Reset
+  a          Toggle axes
+  arrows     Change view angle
+  PgDn/PgUp  Zoom in and out
+  0          Reset view angle
+  ESC        Exit

@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ex15.vert</file>
+    <file>ex15.frag</file>
+    <file>day01.jpg</file>
+    <file>day02.jpg</file>
+    <file>day03.jpg</file>
+    <file>day04.jpg</file>
+    <file>day05.jpg</file>
+    <file>day06.jpg</file>
+    <file>day07.jpg</file>
+    <file>day08.jpg</file>
+    <file>day09.jpg</file>
+    <file>day10.jpg</file>
+    <file>day11.jpg</file>
+    <file>day12.jpg</file>
+    <file>night.jpg</file>
+    <file>cge.png</file>
+</qresource>
+</RCC>

@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ex20.vert</file>
+    <file>ex20.geom</file>
+    <file>ex20.frag</file>
+    <file>star.png</file>
+</qresource>
+</RCC>

@@ -31,6 +31,14 @@ protected:
    float            dim;      // Display size
    int              th,ph;    // Display angles
    int              mode;     // Selected shader
+   float            rcol;     //r value of rgb
+   float            gcol;     //g value of rgb
+   float            bcol;     //b value of rgb
+   int              cmyk_c = 1;
+   int              cmyk_m;
+   int              cmyk_y;
+   int              cmyk_k;
+   int              GS;
    QVector<QOpenGLShaderProgram*> shader; // Shaders
 public:
    CUgl(QWidget* parent=0,bool fixed=true);        // Constructor
@@ -43,6 +51,14 @@ public slots:
    void setObject(int type);                        // Set displayed object
    void addObject(Object* obj);                     // Add object
    void doScene();                                  // Draw scene
+   void setR(int r);                                // Set r value
+   void setG(int g);                                // Set g value
+   void setB(int b);                                // Set b value
+   void setC(int c);                                // Set c on value
+   void setM(int m);                                // Set m on value
+   void setY(int y);                                // Set y on value
+   void setK(int k);                                // Set k on value
+   void setGS(int gs);                              // Set grayscale on value
    void setLightMove(bool on);                      // Set light animation
    void setLightAngle(int th);                      // Set light angle
    void setLightElevation(int pct);                 // Set light elevation (percent)

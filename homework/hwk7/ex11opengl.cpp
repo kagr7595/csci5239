@@ -134,6 +134,14 @@ void Ex11opengl::paintGL()
       float dY = 1.0/height();
       shader[mode]->setUniformValue("dX",dX);
       shader[mode]->setUniformValue("dY",dY);
+      shader[mode]->setUniformValue("R",rcol);
+      shader[mode]->setUniformValue("G",gcol);
+      shader[mode]->setUniformValue("B",bcol);
+      shader[mode]->setUniformValue("C",cmyk_c);
+      shader[mode]->setUniformValue("M",cmyk_m);
+      shader[mode]->setUniformValue("Y",cmyk_y);
+      shader[mode]->setUniformValue("K",cmyk_k);
+      shader[mode]->setUniformValue("GRAYSCALE",GS);
 
       //  Ping-Pong
       for (int k=0;k<N;k++)

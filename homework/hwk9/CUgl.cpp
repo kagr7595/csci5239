@@ -24,6 +24,8 @@ CUgl::CUgl(QWidget* parent,bool fixed)
    Dim = dim = 4;
    fov = 0;
    th = ph = 0;
+   //color settings
+   rcol = gcol = bcol = 127/255.0;
    //  Light settings
    La = 0.3;
    Ld = 1.0;
@@ -137,6 +139,71 @@ void CUgl::setPerspective(int on)
 {
    fov = on ? 55 : 0;
    //  Request redisplay
+   update();
+}
+
+//
+//  Set R value
+//
+void CUgl::setR(int r)
+{
+   rcol = r/255.0;
+   update();
+}
+//
+//  Set G value
+//
+void CUgl::setG(int g)
+{
+   gcol = g/255.0;
+   update();
+}
+//
+//  Set R value
+//
+void CUgl::setB(int b)
+{
+   bcol = b/255.0;
+   update();
+}
+//
+//  Set C ON
+//
+void CUgl::setC(int c)
+{
+   cmyk_c = c;
+   update();
+}
+//
+//  Set M ON
+//
+void CUgl::setM(int m)
+{
+   cmyk_m = m;
+   update();
+}
+//
+//  Set C ON
+//
+void CUgl::setY(int y)
+{
+   cmyk_y = y;
+   update();
+}
+//
+//  Set C ON
+//
+void CUgl::setK(int k)
+{
+   cmyk_k = k;
+   update();
+}
+//
+//  Set GS ON
+//
+void CUgl::setGS(int gs)
+{
+   GS = gs;
    update();
 }
 

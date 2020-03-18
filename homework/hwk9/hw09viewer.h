@@ -12,7 +12,16 @@ Q_OBJECT
 private:
    QSlider*     Lpos;
    QSlider*     Zpos;
+   QSlider*     R;
+   QSlider*     G;
+   QSlider*     B;
    QPushButton* light;
+   QCheckBox* c;
+   QCheckBox* m;
+   QCheckBox* y;
+   QCheckBox* k;
+   QCheckBox* gs;
+   QButtonGroup* bg;
    Hw09opengl*  ogl;
 private slots:
    void lmove();        //  Light movement

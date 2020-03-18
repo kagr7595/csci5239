@@ -1,0 +1,16 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>hw09a.frag</file>
+    <file>hw09b.frag</file>
+    <file>hw09c.frag</file>
+    <file>hw09d.frag</file>
+    <file>hw09e.frag</file>
+    <file>hw09f.frag</file>
+    <file>hw09g.frag</file>
+    <file>hw09h.frag</file>
+    <file>cruiser.obj</file>
+    <file>cruiser.mtl</file>
+    <file>cruiser.png</file>
+    <file>water.png</file>
+</qresource>
+</RCC>

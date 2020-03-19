@@ -13,7 +13,7 @@
 Hw09viewer::Hw09viewer()
 {
    //  Set window title
-   setWindowTitle(tr("Hw09:  OpenGL 3&4 - Kathy Grimes"));
+   setWindowTitle(tr("Hw09:  Advanced Shaders:Geometry Shader - Kathy Grimes"));
 
    //  Create new OpenGL widget
    ogl = new Hw09opengl;

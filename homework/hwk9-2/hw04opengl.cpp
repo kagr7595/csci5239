@@ -71,7 +71,10 @@ void Hw04opengl::initializeGL()
    tex = new QOpenGLTexture(QImage(":/crate.png").mirrored());
 
    //  Load shaders
-   addShader(":/hw04.vert",":/hw04.frag");
+   addShader3(":/hw04.vert",":/hw04.geom",":/hw04.frag");
+   addShader3(":/hw04a.vert",":/hw04a.geom",":/hw04a.frag");
+   addShader3(":/hw04b.vert",":/hw04b.geom",":/hw04b.frag");
+   addShader3(":/hw04b.vert",":/hw04c.geom",":/hw04b.frag");
 
    //  Cube vertex buffer object
    //  Copy data to vertex buffer object

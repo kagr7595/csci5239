@@ -23,11 +23,9 @@ uniform mat3 NormalMatrix;
 layout(location = 0) in vec4 Vertex;
 layout(location = 1) in vec3 Color;
 layout(location = 2) in vec3 Normal;
-layout(location = 3) in vec2 Texture2d;
 
 //  Output to next shader
 out vec3 FrontColor;
-out vec3 TextureCoord2d;
 
 vec3 phong()
 {
@@ -64,11 +62,9 @@ vec3 phong()
 
 
 void main()
-{	
+{
    //  Pass colors to fragment shader (will be interpolated)
    FrontColor = Color*phong();
    //  Set transformed vertex location
    gl_Position =  ProjectionMatrix * ModelViewMatrix * Vertex;
-   // Pass Texture2d
-   TextureCoord2d = vec3(Texture2d,1);
 }

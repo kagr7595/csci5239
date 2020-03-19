@@ -1,7 +1,15 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-    <file>hw04.vert</file>
-    <file>hw04.frag</file>
-    <file>crate.png</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>hw04.vert</file>
+        <file>hw04.frag</file>
+        <file>crate.png</file>
+        <file>hw04.geom</file>
+        <file>hw04a.vert</file>
+        <file>hw04a.frag</file>
+        <file>hw04a.geom</file>
+        <file>hw04b.frag</file>
+        <file>hw04b.vert</file>
+        <file>hw04b.geom</file>
+        <file>hw04c.geom</file>
+    </qresource>
 </RCC>

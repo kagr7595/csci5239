@@ -21,7 +21,10 @@ Hw04viewer::Hw04viewer()
    //  Select shader
    QComboBox* shader = new QComboBox();
    shader->addItem("Fixed Pipeline");
-   shader->addItem("Programmable Pipeline");
+   shader->addItem("Triangle Strip Geom");
+   shader->addItem("Line Strip Geom");
+   shader->addItem("Smaller Triangles");
+   shader->addItem("Bezier Curves");
 
    //  Select projection
    QComboBox* projection = new QComboBox();

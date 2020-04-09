@@ -140,7 +140,8 @@ int InitGPU(int verbose)
    if (clGetDeviceInfo(devid,CL_DEVICE_MAX_WORK_GROUP_SIZE,sizeof(mwgs),&mwgs,NULL)) Fatal("Cannot get OpenCL max work group size\n");
 
    //  Create OpenCL context for fastest device
-   context = clCreateContext(0,1,&devid,NULL,NULL,&err);
+   //context = clCreateContext(0,1,&devid,NULL,NULL,&err);
+   context = clCreateContext(0,1,&devid,Notify,NULL,&err);
    if(!context || err) Fatal("Cannot create OpenCL context\n");
 
    //  Create OpenCL command queue for fastest device

@@ -31,7 +31,8 @@ endif
 
 #  Link
 hw10:hw10.o
-	g++ -O3 -o $@ $^  C:\Windows\System32\OpenCL.dll  $(LIBS)
+    g++ -O3 -o $@ $^  -lOpenCL  $(LIBS)
+	#g++ -O3 -o $@ $^  C:\Windows\System32\OpenCL.dll  $(LIBS)
 
 #  Clean
 clean:

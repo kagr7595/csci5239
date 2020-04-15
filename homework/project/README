@@ -1,0 +1,31 @@
+FProj:  Geometry Shader
+Kathy Grimes
+CSCI 5239
+Based off of HW04
+
+HW Requirements:
+ 
+For this assignment you can implement a particle engine or an advanced shader such as a geometry, tesselation or compute shader.
+
+If you choose to implement a particle engine, you can do small or large
+particles, but it must be shader based, not CPU based.  For large particles
+point sprites may be desirable.
+
+Alternatively, you can create a program that uses one of the newer shader types
+such as a geometry, tesselation or compute shader.
+
+What to draw is up to you.  Choose something that illustrates the techniques you
+are implementing.
+
+What I did:
+I focused on the Geometry Shader and first tested getting the original fixed pipeline crate/cube to output using the geometry shader. After that I played a bit and switched to adding normal lines to the vertices, making the triangles smaller, and making designs with Bezier Curves (adding an additional point at 0,0,0 for the 4th vertex).
+
+Run:
+    unzip
+    qmake
+    make
+    ./fproj
+
+
+How long I spent:
+    About 16 hours.  I went down a wrong path initially when I was trying to modify my hwk6 to work with geometry shaders.  Realized that I should probably start with a later version like the open gl 3/4 homework rather than trying to force something that would need too many changes. 

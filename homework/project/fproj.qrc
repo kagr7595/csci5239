@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fproj.vert</file>
+        <file>fproj.frag</file>
+        <file>crate.png</file>
+        <file>fproj.geom</file>
+        <file>fproja.vert</file>
+        <file>fproja.frag</file>
+        <file>fproja.geom</file>
+        <file>fprojb.frag</file>
+        <file>fprojb.vert</file>
+        <file>fprojb.geom</file>
+        <file>fprojc.geom</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,51 @@
+hw10: OpenCL 
+CSCI5239 Spring 2020
+Kathy Grimes
+
+HW10: GPU Computing
+This program was based off of ex24 opencl.  
+
+The program does a comparison of add/subtract/multiply/divide with the summation of the current operation up to 46 times per task
+After running the program, what I got from the data/results is that the more complex operations you use on the data, the more likely
+the result will show a significant speedup when comparing the GPU to CPU  (where GPU shows the better results with higher complexity).  The initial copying
+takes a certain amount of overhead, thereby needing to offset with something more complex than basic onetime add/subtract/multiply/divide.
+
+For instance, running my program with
+./hw10 1000000 10
+gives me the following results:
+OpenCL Platform 0: NVIDIA CUDA
+OpenCL Device 0: GeForce RTX 2080 Ti Gflops 105.060000
+Fastest OpenCL Device: GeForce RTX 2080 Ti
+num_add=1000000, repeat_num=10, max work group=1024
+the average of 10 with 1 operation of
+Add: 0.1 Speedup
+Subtract: 0.2 Speedup
+Multiply: 0.2 Speedup
+Divide: 0.2 Speedup
+the average of 10 with 46 operations of 
+Add: 3.3 Speedup
+Subtract: 3.7 Speedup
+Multiply: 4.0 Speedup
+Divide: 4.3 Speedup
+
+
+To recreate:
+make
+./hw10 1000000 10  
+(where 1000000 is a recommended value to see more interesting results for number of added elements to A and B arrays) 
+(where 10 is the number of times the calculation is repeated for averaging since usually the first time through the host takes longer)
+
+
+I ran this on windows and had to change the makefile/code for createContext to get the ex24 to work.  
+I did remove these changes from the submission however so please let me know if you cannot get it to work on your linux machine.
+
+I spent around 15 hours installing/reinstalling  visual studio/cuda and trying out suggested fixes for compile issues, 
+getting mingw to work with opencl and modifiying make scripts/redirecting path links/copying files 
+to get something working on my machine with your ex24 code (ex23 I just couldn't get working)
+I spent around 8 hours on the code changes for opencl/program.  I started with just an add float then steadily added functionality
+
+
+Command line parameters
+  -v          Verbose - show hardware detila
+  num_add     number of added elements (a recommended starting value is 1000000)
+  repeat_num  number of times calculation is run for averaging (1-20)

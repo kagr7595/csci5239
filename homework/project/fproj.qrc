@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>fproj.vert</file>
-        <file>fproj.frag</file>
+        <file>fproj_flower.vert</file>
+        <file>fproj_flower.frag</file>
         <file>crate.png</file>
-        <file>fproj.geom</file>
+        <file>fproj_flower.geom</file>
         <file>fproja.vert</file>
         <file>fproja.frag</file>
         <file>fproja.geom</file>
@@ -11,5 +11,25 @@
         <file>fprojb.vert</file>
         <file>fprojb.geom</file>
         <file>fprojc.geom</file>
+        <file>fproj_skybox.frag</file>
+        <file>fproj_skybox.vert</file>
+        <file>hills_bk.bmp</file>
+        <file>hills_dn.bmp</file>
+        <file>hills_ft.bmp</file>
+        <file>hills_lf.bmp</file>
+        <file>hills_rt.bmp</file>
+        <file>hills_up.bmp</file>
+        <file>Grass4/Grass_004_COLOR.jpg</file>
+        <file>Grass4/Grass_004_DISP.png</file>
+        <file>Grass4/Grass_004_NORM.jpg</file>
+        <file>Grass4/Grass_004_OCC.jpg</file>
+        <file>Grass4/Grass_004_ROUGH.jpg</file>
+        <file>fproj_grass.frag</file>
+        <file>grass_bottom.bmp</file>
+        <file>fproj_grass.geom</file>
+        <file>fproj_grass.vert</file>
+        <file>fproj_tree.vert</file>
+        <file>fproj_tree.geom</file>
+        <file>fproj_tree.frag</file>
     </qresource>
 </RCC>

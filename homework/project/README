@@ -1,31 +1,40 @@
-FProj:  Geometry Shader
+Project: Enchanted Flower Woods
 Kathy Grimes
 CSCI 5239
-Based off of HW04
+Based off of all hwks
 
-HW Requirements:
- 
-For this assignment you can implement a particle engine or an advanced shader such as a geometry, tesselation or compute shader.
+Project Proposal
+Kathy Grimes
 
-If you choose to implement a particle engine, you can do small or large
-particles, but it must be shader based, not CPU based.  For large particles
-point sprites may be desirable.
+Flower Field Project:
 
-Alternatively, you can create a program that uses one of the newer shader types
-such as a geometry, tesselation or compute shader.
+What I plan to do:
+-Use QT
+-Use OpenGL3/4
+-Have SkyCube
+-Create a variety of objects (resizable via trans/rot/scale)
+	-flowers(different types), basic trees
+-Have lighting
+-Use geom/vert/frag shaders to manipulate the objects/add new effects
+	- use geom shader to implement grass type objects
+	- use the shader to cause the flower to sparkle/shimmer (could be particles or an effect using time)
+	- use multiple shaders
+-Make it look pretty
 
-What to draw is up to you.  Choose something that illustrates the techniques you
-are implementing.
+Stretch: Try to get bump mapping to work for the base landscape
+	
 
 What I did:
-I focused on the Geometry Shader and first tested getting the original fixed pipeline crate/cube to output using the geometry shader. After that I played a bit and switched to adding normal lines to the vertices, making the triangles smaller, and making designs with Bezier Curves (adding an additional point at 0,0,0 for the 4th vertex).
+I pretty much got everything above working except the stretch goal.  I used many shaders - to seperate land/sky/trees/flowers/grass.  I caused a particle effect using time, bezier function and passing in the normals to .geom.  Made some awesome flowers! (I think this is the prettiest hwk/project I've done!!! I tried to implement some bump mapping for the land texture, but I couldn't get it working so I removed it - -Wasn't able to get tangent space correct. The grass was created using normals of flower/tree data in the geom shader.  Implemnted in OpenGL4 with QT.  The important shaders have _grass/flower/tree/etc in the name. 
 
 Run:
     unzip
     qmake
     make
     ./fproj
+    
+    (I ran this using Qt Creator in Windows and was not able to run on Linux - please let me know if something does not work/compile like it should)
 
 
 How long I spent:
-    About 16 hours.  I went down a wrong path initially when I was trying to modify my hwk6 to work with geometry shaders.  Realized that I should probably start with a later version like the open gl 3/4 homework rather than trying to force something that would need too many changes. 
+    About 60-65 hours.  The worst part is that I had taken a day off of work Tuesday to finish up this project and then the internet has been down for the past 16 hours (was supposed to be back on at 11:56pm Century Link said... - using my cell network to turn this in)

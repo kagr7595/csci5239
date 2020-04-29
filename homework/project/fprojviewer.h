@@ -10,9 +10,12 @@ class Fprojviewer : public QWidget
 {
 Q_OBJECT
 private:
+   QSlider*     Vpos;
    QSlider*     Lpos;
+   QSlider*     Lrad;
    QSlider*     Zpos;
    QPushButton* light;
+   QPushButton* day;
    Fprojopengl*  ogl;
 private slots:
    void lmove();        //  Light movement

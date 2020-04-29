@@ -12,6 +12,10 @@ struct LightS {
 };
 
 uniform LightS light;
+uniform int currently_trunk;
+uniform int mirror;
+uniform int num_branch;
+uniform vec3 ocolor;
 
 //  Transformation matrices
 uniform mat4 ModelViewMatrix;
@@ -66,7 +70,7 @@ vec3 phong()
 void main()
 {	
    //  Pass colors to fragment shader (will be interpolated)
-   FrontColor = Color*phong();
+   FrontColor = ocolor*phong();
    //  Set transformed vertex location
    gl_Position =  ProjectionMatrix * ModelViewMatrix * Vertex;
    // Pass Texture2d

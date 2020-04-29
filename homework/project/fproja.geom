@@ -9,10 +9,10 @@ in vec3 vNormal[];
 out vec3 FrontColorFrag;
 void main()
 {
-  FrontColorFrag = FrontColor[0];
+  FrontColorFrag = FrontColor[0]*vec3(.4,.5,.2);
   for(int i=0; i<3; i++)
   {
-    gl_Position = gl_in[i].gl_Position - vec4(vNormal[0]/2.0,0.0);
+    gl_Position = gl_in[i].gl_Position - vec4(vNormal[0]/6.0,0.0);
     EmitVertex();
     gl_Position = gl_in[i].gl_Position + vec4(vNormal[0]/2.0,0.0);
     EmitVertex();

@@ -13,14 +13,14 @@
 Fprojviewer::Fprojviewer()
 {
    //  Set window title
-   setWindowTitle(tr("Fproj:  OpenGL 3&4 - Kathy Grimes"));
+   setWindowTitle(tr("Project: Enchanted Flower Woods - Kathy Grimes"));
 
    //  Create new OpenGL widget
    ogl = new Fprojopengl;
 
    //  Select shader
    QComboBox* shader = new QComboBox();
-   shader->addItem("Fixed Pipeline");
+   //shader->addItem("Fixed Pipeline");
    shader->addItem("Triangle Strip Geom");
    shader->addItem("Line Strip Geom");
    shader->addItem("Smaller Triangles");
@@ -34,13 +34,17 @@ Fprojviewer::Fprojviewer()
 
    //  Select object
    QComboBox* object = new QComboBox();
-   object->addItem("Cube");
+   object->addItem("Summer");
+   object->addItem("Fall");
+   object->addItem("Spring");
 
    //  Center position
    Lpos = new QSlider(Qt::Horizontal);
+   Lrad = new QSlider(Qt::Horizontal);
    Zpos = new QSlider(Qt::Horizontal);
    Lpos->setRange(0,360);
-   Zpos->setRange(-100,100);
+   Lrad->setRange(0,500);
+   Zpos->setRange(-100,500);
 
    //  View angle and zoom
    QLabel* angles = new QLabel();
@@ -56,12 +60,14 @@ Fprojviewer::Fprojviewer()
    //  Set layout of child widgets
    QGridLayout* layout = new QGridLayout;
    layout->addWidget(ogl,0,0,8,1);
-   layout->addWidget(new QLabel("Shader"),0,1);
-   layout->addWidget(shader,0,2);
-   layout->addWidget(new QLabel("Projection"),1,1);
-   layout->addWidget(projection,1,2);
-   layout->addWidget(new QLabel("Object"),2,1);
-   layout->addWidget(object,2,2);
+   //layout->addWidget(new QLabel("Shader"),0,1);
+   //layout->addWidget(shader,0,2);
+   //layout->addWidget(new QLabel("Projection"),1,1);
+   //layout->addWidget(projection,1,2);
+   layout->addWidget(new QLabel("Object"),0,1);
+   layout->addWidget(object,0,2);
+   layout->addWidget(new QLabel("Light Radius"),2,1);
+   layout->addWidget(Lrad,2,2);
    layout->addWidget(new QLabel("Light Position"),3,1);
    layout->addWidget(Lpos,3,2);
    layout->addWidget(new QLabel("Light Elevation"),4,1);
@@ -83,6 +89,7 @@ Fprojviewer::Fprojviewer()
    connect(object,SIGNAL(currentIndexChanged(int))     , ogl,SLOT(setObject(int)));
    connect(projection,SIGNAL(currentIndexChanged(int)) , ogl,SLOT(setPerspective(int)));
    connect(Lpos,SIGNAL(valueChanged(int)) , ogl,SLOT(setLightAngle(int)));
+   connect(Lrad,SIGNAL(valueChanged(int)) , ogl,SLOT(setLightRad(int)));
    connect(Zpos,SIGNAL(valueChanged(int)) , ogl,SLOT(setLightElevation(int)));
    //  Connect angles() and zoom() signal to labels
    connect(ogl,SIGNAL(angles(QString)) , angles,SLOT(setText(QString)));

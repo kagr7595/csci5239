@@ -10,13 +10,13 @@
 //
 //  Constructor
 //
-CUgl::CUgl(QWidget* parent,bool fixed)
+CUgl::CUgl(QWidget* parent)
     : QOpenGLWidget(parent)
 {
    //  Initial shader
    mode  = 0;
-   //  Fixed pipeline
-   if (fixed) shader.push_back(NULL);
+   //  Initial season
+   season = SUMMER;
    //  Draw all objects
    obj = -1;
    //  Projection
@@ -29,9 +29,9 @@ CUgl::CUgl(QWidget* parent,bool fixed)
    Ld = 1.0;
    Ls = 1.0;
    //  Light position
-   Lr = 2;
+   Lr = 30;
    zh = 0;
-   ylight = 2;
+   ylight = 0;
    //  Light animation
    move = true;
    //  100 fps timer connected to tick()
@@ -90,45 +90,21 @@ void CUgl::setDim(float d)
 //
 void CUgl::setShader(int sel)
 {
-   if (sel>=0 && sel<shader.length())
-      mode = sel;
+   mode = sel;
    //  Request redisplay
    update();
 }
 
 //
-//  Set object
+//  Set reusing as seasons value
 //
 void CUgl::setObject(int type)
 {
-   if (type>=0 && type<objects.size())
-      obj = type;
+   season = type;
    //  Request redisplay
    update();
 }
 
-//
-//  Add object
-//
-void CUgl::addObject(Object* obj)
-{
-   objects.push_back(obj);
-}
-
-//
-//  Draw scene
-//
-void CUgl::doScene()
-{
-   //  Draw single object
-   if (obj>=0 && obj<objects.length())
-      objects[obj]->display();
-   //  Draw all objects
-   else
-      for (int k=0;k<objects.length();k++)
-         objects[k]->display();
-         
-}
 
 //
 //  Set projection
@@ -200,6 +176,14 @@ void CUgl::setLightAngle(int th)
    update();
 }
 
+//
+//  Set light intensity
+//
+void CUgl::setLightRad(int dist)
+{
+   Lr = dist;
+   update();
+}
 //
 //  Set light intensity
 //
@@ -350,7 +334,7 @@ void CUgl::mouseMoveEvent(QMouseEvent* e)
    {
       QPoint d = e->pos()-pos;  //  Change in mouse location
       th = (th+d.x())%360;      //  Translate x movement to azimuth
-      ph = (ph+d.y())%360;      //  Translate y movement to elevation
+      ph = ((ph+d.y())%360 < 90) && ((ph+d.y())%360 > 1) ? ((ph+d.y())%360) :((ph+d.y())%360 > 90) ? 90 : 1 ;      //  Translate y movement to elevation
       pos = e->pos();           //  Remember new location
       update();                 //  Request redisplay
    }
@@ -362,11 +346,12 @@ void CUgl::mouseMoveEvent(QMouseEvent* e)
 void CUgl::wheelEvent(QWheelEvent* e)
 {
    //  Zoom out
-   if (e->delta()<0)
-      dim += 0.1;
+   if (e->delta()<0) {
+       if(dim < 10.05)
+            dim += 0.1;
    //  Zoom in
-   else if (dim>1)
-      dim -= 0.1;
+   } else if (dim>2.5)
+       dim -= 0.1;
    //  Request redisplay
    update();
 }
@@ -374,7 +359,7 @@ void CUgl::wheelEvent(QWheelEvent* e)
 //
 //  Load shader
 //
-void CUgl::addShader(QString vert,QString frag,QString names)
+void CUgl::addShader(int pshader, QString vert,QString frag,QString names)
 {
    QOpenGLFunctions glf(QOpenGLContext::currentContext());
    QStringList name = names.split(',');
@@ -398,13 +383,13 @@ void CUgl::addShader(QString vert,QString frag,QString names)
       Fatal("Error linking shader\n"+prog->log());
    //  Push onto stack
    else
-      shader.push_back(prog);
+      shader[pshader].push_back(prog);
 }
 
 //
 //  Load shader
 //
-void CUgl::addShader3(QString vert,QString geom,QString frag)
+void CUgl::addShader3(int pshader, QString vert,QString geom,QString frag)
 {
    QOpenGLShaderProgram* prog = new QOpenGLShaderProgram;
    //  Vertex shader
@@ -421,7 +406,7 @@ void CUgl::addShader3(QString vert,QString geom,QString frag)
       Fatal("Error linking shader\n"+prog->log());
    //  Push onto stack
    else
-      shader.push_back(prog);
+      shader[pshader].push_back(prog);
 }
 
 //

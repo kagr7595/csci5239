@@ -10,13 +10,32 @@
 #include <QVector>
 #include "Object.h"
 
+#define SUMMER 0
+#define WINTER 1
+#define SPRING 2
+#define FALL 3
+#define OTHER 4
+
+#define BLACK 1
+#define BROWN 2
+#define RED 3
+#define BLUE 4
+#define GREEN 5
+#define ORANGE 6
+#define YELLOW 7
+#define WHITE 8
+#define NUM_COLORS 8
+
+#define SKYBOX 0
+#define FLOOR 1
+
+
 class CUgl : public QOpenGLWidget
 {
 Q_OBJECT
 private:
    float            La,Ld,Ls; // Light intensity
    float            Lr;       // Light radius
-   float            zh;       // Light angle
    float            ylight;   // Light elevation
    bool             move;     // Moving light
    int              obj;      // Selected Object
@@ -26,30 +45,31 @@ protected:
    QVector<Object*> objects;  // Objects
    bool             mouse;    // Mouse pressed
    QPoint           pos;      // Mouse position
+   float            zh;       // Light angle
    int              fov;      // Field of view
    float            Dim;      // Default size
    float            dim;      // Display size
    int              th,ph;    // Display angles
    int              mode;     // Selected shader
-   QVector<QOpenGLShaderProgram*> shader; // Shaders
+   int              season;     // Selected season
+   QVector<QOpenGLShaderProgram*> shader[2]; // Shaders
 public:
-   CUgl(QWidget* parent=0,bool fixed=true);        // Constructor
+   CUgl(QWidget* parent=0);        // Constructor
    QSize sizeHint() const {return QSize(400,400);} // Default size of widget
 public slots:
    void reset();
    void setDim(float d);                            // Set scene size
    void setPerspective(int on);                     // Set perspective
    void setShader(int sel);                         // Set shader
-   void setObject(int type);                        // Set displayed object
-   void addObject(Object* obj);                     // Add object
-   void doScene();                                  // Draw scene
+   void setObject(int type);                        // Set season
    void setLightMove(bool on);                      // Set light animation
    void setLightAngle(int th);                      // Set light angle
    void setLightElevation(int pct);                 // Set light elevation (percent)
+   void setLightRad(int dist);                      // Set light radius
    void setLightIntensity(float a,float d,float s); // Set light intensity
    void maxFPS(bool);                               // Set max fps
-   void addShader(QString vert,QString frag,QString names=""); // Add shader
-   void addShader3(QString vert,QString geom,QString frag);    // Add shader
+   void addShader(int pshader, QString vert,QString frag,QString names=""); // Add shader
+   void addShader3(int pshader, QString vert,QString geom,QString frag);    // Add shader
 protected:
    void initializeGL();                             // Initialization
    void mousePressEvent(QMouseEvent*);              // Mouse pressed
